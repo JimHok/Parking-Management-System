@@ -1,12 +1,76 @@
-# Objectives
+# Software Design for AIoT (Group 5)
 
-Learn concepts related to AIoT software.
-Practice AIoT software development skills and tools.
-Experience team software development using a case study.
+## Objectives
 
-# Scope:
+- Develop a system that can detect the license plate number of vehicles entering a parking lot, verify it with a database, and allow access if the number is registered. Also, display an error message if the number is not in the database.
+- Implement a feature that uses Bluetooth signals to verify the user's identity by matching it with the detected license plate number. Allow entry to the parking lot if the match is successful and display an error message if not.
+- Create a system that can maintain a secure record of license plate numbers and entry/exit timestamps of vehicles entering and exiting the parking lot. Also, provide authorized personnel with easy access to the record for querying purposes.
 
-# User stories and acceptance criteria:
+## Scope:
+
+### Concepts:
+
+- Lectures:
+
+  1. L1(AIoT architecture)
+  2. L2(software models)
+  3. L3()
+  4. L4()
+  5. L5()
+  6. L6()
+  7. L7()
+  8. L8()
+  9. L9()
+  10. L10()
+
+- Practices:
+
+  1. P1(cross-platform development/Bluetooth Low Energy)
+  2. P2(multi-threading application)
+  3. P3()
+  4. P4()
+  5. P6()
+  6. P7()
+  7. P8()
+  8. P9()
+  9. P10()
+
+### Skills:
+
+- Lectures:
+  1. L1(user story)
+  2. L2(UML diagram)
+  3. L3()
+  4. L4()
+  5. L5()
+  6. L6()
+  7. L7()
+  8. L8()
+  9. L9()
+  10. L10()
+- Practices:
+  1. P1(embedded programming/BLE programming)
+  2. P2(state machine coding/RTOS programming)
+  3. P3()
+  4. P4()
+  5. P6()
+  6. P7()
+  7. P8()
+  8. P9()
+  9. P10()
+
+### Tools:
+
+- GitHub
+- VS Code
+- Platform.io
+- HiveMQ,
+
+### Case study:
+
+- MarTech using BLE beacon.
+
+## User Stories and Acceptance Criteria:
 
 ### User Story 1:
 
@@ -49,67 +113,41 @@ Acceptance Criteria:
 - The user should be able to easily enter and exit the parking lot by having the system automatically detect their license plate number and Bluetooth signal
 - The user should receive a confirmation message upon successful entry and exit.
 
-# Concepts:
+## Impact of the Project
 
-# Lectures:
+1. Improved security: The system will prevent unauthorized access to the parking lot by verifying the license plate number and Bluetooth signal, which will enhance security and reduce the risk of theft and vandalism.
+2. Increased efficiency: The system will automate the entry and exit process, which will reduce the time it takes for vehicles to enter and exit the parking lot, thereby improving efficiency and reducing congestion.
+3. Enhanced record-keeping: The system will maintain a record of vehicles entering and exiting the parking lot, which will enable the parking lot management to track usage patterns, identify potential issues, and generate reports.
+4. Improved customer satisfaction: The system will provide a convenient and efficient way for registered users to enter and exit the parking lot, which will enhance customer satisfaction and increase loyalty.
 
-- L1(AIoT architecture)
-- L2(software models)
-- L3()
-- L4()
-- L5()
-- L6()
-- L7()
-- L8()
-- L9()
-- L10()
+## System Requirement
 
-# Practices:
+### Things layer:
 
-- P1(cross-platform development/Bluetooth Low Energy)
-- P2(multi-threading application)
-- P3()
-- P4()
-- P6()
-- P7()
-- P8()
-- P9()
-- P10()
+### Gateway layer:
 
-# Skills:
+### Server layer:
 
-# Lectures:
+### Service layer:
 
-- L1(user story)
-- L2(UML diagram)
-- L3()
-- L4()
-- L5()
-- L6()
-- L7()
-- L8()
-- L9()
-- L10()
+### UI layer:
 
-# Practices:
+## Software Architecture
 
-- P1(embedded programming/BLE programming)
-- P2(state machine coding/RTOS programming)
-- P3()
-- P4()
-- P6()
-- P7()
-- P8()
-- P9()
-- P10()
+### ESP-32 tag:
 
-# Tools:
+### ESP-32 scanner:
 
-- GitHub
-- VS Code
-- Platform.io
-- HiveMQ,
+### Line bot:
 
-# Case study:
+### AI:
 
-- MarTech using BLE beacon.
+### LIFF UI:
+
+## Software Implementation
+
+### Firmware development
+
+### LINE bot development
+
+### LIFF UI development
