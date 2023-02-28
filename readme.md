@@ -4,9 +4,9 @@ Learn concepts related to AIoT software.
 Practice AIoT software development skills and tools.
 Experience team software development using a case study.
 
-## Scope:
+# Scope:
 
-## User stories and acceptance criteria:
+# User stories and acceptance criteria:
 
 ### User Story 1:
 
@@ -15,11 +15,8 @@ As a parking lot manager, I want the system to detect the license plate number o
 Acceptance Criteria:
 
 - The system should be able to detect the license plate number of vehicles entering the parking lot
-
 - The system should be able to check if the license plate number is in the database
-
 - If the license plate number is in the database, the system should open the barricade and allow the user to enter the parking lot
-
 - If the license plate number is not in the database, the system should not open the barricade and should display an error message.
 
 ### User Story 2:
@@ -40,9 +37,7 @@ As a parking lot manager, I want the system to maintain a record of vehicles ent
 Acceptance Criteria:
 
 - The system should maintain a record of license plate numbers and entry/exit timestamps of vehicles entering and exiting the parking lot
-
 - The record should be stored in a database and be easily queryable
-
 - The record should be secure and only accessible to authorized personnel.
 
 ### User Story 4:
@@ -51,14 +46,12 @@ As a parking lot user, I want to be able to easily enter and exit the parking lo
 Acceptance Criteria:
 
 - The user should be able to register their license plate number and Bluetooth device with the system
-
 - The user should be able to easily enter and exit the parking lot by having the system automatically detect their license plate number and Bluetooth signal
-
 - The user should receive a confirmation message upon successful entry and exit.
 
-## Concepts:
+# Concepts:
 
-## Lectures:
+# Lectures:
 
 - L1(AIoT architecture)
 - L2(software models)
@@ -71,7 +64,7 @@ Acceptance Criteria:
 - L9()
 - L10()
 
-## Practices:
+# Practices:
 
 - P1(cross-platform development/Bluetooth Low Energy)
 - P2(multi-threading application)
@@ -83,9 +76,9 @@ Acceptance Criteria:
 - P9()
 - P10()
 
-## Skills:
+# Skills:
 
-## Lectures:
+# Lectures:
 
 - L1(user story)
 - L2(UML diagram)
@@ -98,7 +91,7 @@ Acceptance Criteria:
 - L9()
 - L10()
 
-## Practices:
+# Practices:
 
 - P1(embedded programming/BLE programming)
 - P2(state machine coding/RTOS programming)
@@ -110,13 +103,13 @@ Acceptance Criteria:
 - P9()
 - P10()
 
-## Tools:
+# Tools:
 
 - GitHub
 - VS Code
 - Platform.io
 - HiveMQ,
 
-## Case study:
+# Case study:
 
 - MarTech using BLE beacon.
