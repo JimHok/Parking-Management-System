@@ -1,74 +1,10 @@
-# Software Design for AIoT (Group 5)
+# Parking Lot Management System (Group 5)
 
 ## Objectives
 
 - Develop a system that can detect the license plate number of vehicles entering a parking lot, verify it with a database, and allow access if the number is registered. Also, display an error message if the number is not in the database.
 - Implement a feature that uses Bluetooth signals to verify the user's identity by matching it with the detected license plate number. Allow entry to the parking lot if the match is successful and display an error message if not.
 - Create a system that can maintain a secure record of license plate numbers and entry/exit timestamps of vehicles entering and exiting the parking lot. Also, provide authorized personnel with easy access to the record for querying purposes.
-
-## Scope:
-
-### Concepts:
-
-- Lectures:
-
-  1. L1(AIoT architecture)
-  2. L2(software models)
-  3. L3()
-  4. L4()
-  5. L5()
-  6. L6()
-  7. L7()
-  8. L8()
-  9. L9()
-  10. L10()
-
-- Practices:
-
-  1. P1(cross-platform development/Bluetooth Low Energy)
-  2. P2(multi-threading application)
-  3. P3()
-  4. P4()
-  5. P6()
-  6. P7()
-  7. P8()
-  8. P9()
-  9. P10()
-
-### Skills:
-
-- Lectures:
-  1. L1(user story)
-  2. L2(UML diagram)
-  3. L3()
-  4. L4()
-  5. L5()
-  6. L6()
-  7. L7()
-  8. L8()
-  9. L9()
-  10. L10()
-- Practices:
-  1. P1(embedded programming/BLE programming)
-  2. P2(state machine coding/RTOS programming)
-  3. P3()
-  4. P4()
-  5. P6()
-  6. P7()
-  7. P8()
-  8. P9()
-  9. P10()
-
-### Tools:
-
-- GitHub
-- VS Code
-- Platform.io
-- HiveMQ,
-
-### Case study:
-
-- MarTech using BLE beacon.
 
 ## User Stories and Acceptance Criteria:
 
