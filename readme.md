@@ -1,4 +1,4 @@
-# Software Design for AIoT (Group 5)
+# Parking Lot Management System (Group 5)
 
 ## Objectives
 
