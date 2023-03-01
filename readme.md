@@ -107,6 +107,7 @@ Acceptance Criteria:
 ### User Story 4:
 
 As a parking lot user, I want to be able to easily enter and exit the parking lot using my registered license plate number and Bluetooth device.
+
 Acceptance Criteria:
 
 - The user should be able to register their license plate number and Bluetooth device with the system
