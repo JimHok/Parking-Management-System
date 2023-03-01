@@ -1,16 +1,15 @@
-# parking_app
+# Parking Android App
 
-A new Flutter project.
+Parking Android App for information recording
 
-## Getting Started
+## App Detail
 
-This project is a starting point for a Flutter application.
+The parking app is made up of the following:
+- Firebase for cloud storage
+- User login for data storage
+- Android based GUI
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Information Stored:
+- Name for user
+- Bluetooth name
+- License plate number
