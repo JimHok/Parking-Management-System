@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData().copyWith(
           colorScheme:
-              ThemeData().colorScheme.copyWith(primary: Colors.pink[400]),
+              ThemeData().colorScheme.copyWith(primary: Color(0xffB62D2D)),
         ),
         home: Wrapper(),
       ),
