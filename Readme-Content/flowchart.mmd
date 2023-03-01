@@ -1,0 +1,44 @@
+graph TD;
+    subgraph Hardware
+        A(Parking Entrance Camera)
+        B(Barricade)
+        C(ESP-32)
+    end
+    subgraph Frontend
+        E(Confirmation Message)
+        F(Display Error Message)
+        D(User Registration)
+    end
+    subgraph Backend
+        subgraph Database
+            G(Plate Number)
+            H(Bluetooth Device)
+            I(Record of Entry)
+        end
+        subgraph API
+            J(Plate Number Validation)
+            K(Bluetooth Validation)
+            L(Store Record)
+        end
+        M(Allow Parking)
+        O(Allow Entry)
+    end
+    subgraph User
+        Q(License Plate Number)
+        R(Bluetooth Device)
+    end
+
+    D -->|License Plate Number| G
+    D -->|Bluetooth Device| H
+    Q -->|License Plate Number| A
+    A -->|License Plate Number| J
+    G -->|License Plate Number| J
+    J -->|Plate number in database| O
+    O -->|Open Barricade| B
+    J -->|Plate number not in database| F
+    R -->|Bluetooth signal| C
+    C -->|Bluetooth signal| K
+    H -->|Bluetooth signal| K
+    K -->|Signal match plate number| M
+    K -->|Signal not match plate number| F
+
