@@ -9,7 +9,8 @@ class DatabaseService {
   final CollectionReference brewCollection =
       FirebaseFirestore.instance.collection('brews');
 
-  Future updateUserData(String bluetooth_id, String name, String license_plate) async {
+  Future updateUserData(
+      String bluetooth_id, String name, String license_plate) async {
     return await brewCollection.doc(uid).set({
       'bluetooth_id': bluetooth_id,
       'name': name,
@@ -22,15 +23,28 @@ class DatabaseService {
     return snapshot.docs.map((doc) {
       return Information(
         name: doc.get('name') ?? '',
-        bluetooth_id: doc.get('bluetooth_id') ?? '0',
-        license_plate: doc.get('license_plate') ?? '0',
+        bluetooth_id: doc.get('bluetooth_id') ?? '',
+        license_plate: doc.get('license_plate') ?? '',
       );
     }).toList();
+  }
+
+  // brew data from snapshot
+  Information _brewFromSnapshot(DocumentSnapshot snapshot) {
+    return Information(
+      name: snapshot.get('name') ?? '',
+      bluetooth_id: snapshot.get('bluetooth_id') ?? '',
+      license_plate: snapshot.get('license_plate') ?? '',
+    );
   }
 
   // get brews stream
   Stream<List<Information>> get brews {
     return brewCollection.snapshots().map(_brewListFromSnapshot);
+  }
+
+  Stream<Information> get info {
+    return brewCollection.doc(uid).snapshots().map(_brewFromSnapshot);
   }
 
   // get user doc stream

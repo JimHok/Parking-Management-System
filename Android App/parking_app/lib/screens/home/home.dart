@@ -4,6 +4,8 @@ import 'package:parking_app/screens/home/brew_list.dart';
 import 'package:parking_app/screens/home/setting_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parking_app/shared/loading.dart';
 
 import 'package:parking_app/services/auth.dart';
 import 'package:parking_app/services/database.dart';
@@ -26,9 +28,13 @@ class Home extends StatelessWidget {
           });
     }
 
-    return StreamProvider<List<Information>?>.value(
-      value: DatabaseService().brews,
-      initialData: null,
+    return StreamProvider<Information>.value(
+      value: DatabaseService(uid: user?.uid).info,
+      initialData: Information(
+        name: '',
+        bluetooth_id: '',
+        license_plate: '',
+      ),
       child: Scaffold(
         backgroundColor: Color(0xff7AA5C5),
         appBar: AppBar(
@@ -64,6 +70,13 @@ class Home extends StatelessWidget {
               ),
             ),
             child: BrewList()),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // Add your onPressed code here!
+          },
+          backgroundColor: Color(0xff4B667A),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
