@@ -9,12 +9,25 @@ class DatabaseService {
   final CollectionReference brewCollection =
       FirebaseFirestore.instance.collection('brews');
 
-  Future updateUserData(
-      String bluetooth_id, String name, String license_plate) async {
+  Future setUserData(
+      int index, String bluetooth_id, String name, String license_plate) async {
     return await brewCollection.doc(uid).set({
-      'bluetooth_id': bluetooth_id,
-      'name': name,
-      'license_plate': license_plate,
+      '$index': {
+        'bluetooth_id': bluetooth_id,
+        'name': name,
+        'license_plate': license_plate,
+      }
+    });
+  }
+
+  Future updateUserData(
+      int index, String bluetooth_id, String name, String license_plate) async {
+    return await brewCollection.doc(uid).update({
+      '$index': {
+        'bluetooth_id': bluetooth_id,
+        'name': name,
+        'license_plate': license_plate,
+      }
     });
   }
 
@@ -30,12 +43,15 @@ class DatabaseService {
   }
 
   // brew data from snapshot
-  Information _brewFromSnapshot(DocumentSnapshot snapshot) {
-    return Information(
-      name: snapshot.get('name') ?? '',
-      bluetooth_id: snapshot.get('bluetooth_id') ?? '',
-      license_plate: snapshot.get('license_plate') ?? '',
-    );
+  List<Information> _getInfoFromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    return data.values.map((data) {
+      return Information(
+        name: data['name'] ?? '',
+        bluetooth_id: data['bluetooth_id'] ?? '',
+        license_plate: data['license_plate'] ?? '',
+      );
+    }).toList();
   }
 
   // get brews stream
@@ -43,8 +59,8 @@ class DatabaseService {
     return brewCollection.snapshots().map(_brewListFromSnapshot);
   }
 
-  Stream<Information> get info {
-    return brewCollection.doc(uid).snapshots().map(_brewFromSnapshot);
+  Stream<List<Information>> get info {
+    return brewCollection.doc(uid).snapshots().map(_getInfoFromSnapshot);
   }
 
   // get user doc stream

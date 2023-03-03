@@ -16,13 +16,13 @@ class BrewList extends StatefulWidget {
 class _BrewListState extends State<BrewList> {
   @override
   Widget build(BuildContext context) {
-    final info = Provider.of<Information>(context);
+    final info = Provider.of<List<Information>?>(context);
 
     return ListView.builder(
-      itemCount: 1,
+      itemCount: info?.length ?? 0,
       itemBuilder: (context, index) {
-        // print(info?[index].name);
-        return BrewTile(verification: info);
+        // print(index);
+        return BrewTile(verification: info![index], index: index + 1);
       },
     );
   }

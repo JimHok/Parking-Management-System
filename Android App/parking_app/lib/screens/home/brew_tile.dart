@@ -4,18 +4,19 @@ import 'package:parking_app/screens/home/setting_form.dart';
 
 class BrewTile extends StatelessWidget {
   final Information? verification;
-  BrewTile({this.verification});
+  var index;
+
+  BrewTile({this.verification, this.index});
 
   @override
   Widget build(BuildContext context) {
-
     void _showSettingsPanel() {
       showModalBottomSheet(
           context: context,
           builder: (context) {
             return Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-              child: SettingForm(),
+              child: SettingForm(index: index),
             );
           });
     }
@@ -30,7 +31,8 @@ class BrewTile extends StatelessWidget {
             backgroundImage: AssetImage('assets/car_icon.png'),
           ),
           title: Text(verification!.name!),
-          subtitle: Text('Licence Plate Number: ${verification!.license_plate}'),
+          subtitle:
+              Text('Licence Plate Number: ${verification!.license_plate}'),
           onTap: () => _showSettingsPanel(),
         ),
       ),

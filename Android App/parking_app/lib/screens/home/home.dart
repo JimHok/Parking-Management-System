@@ -17,24 +17,22 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserParam?>(context);
 
-    void _showSettingsPanel() {
+    void _showSettingsPanel(Index) {
       showModalBottomSheet(
           context: context,
           builder: (context) {
             return Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-              child: SettingForm(),
+              child: SettingForm(
+                index: Index,
+              ),
             );
           });
     }
 
-    return StreamProvider<Information>.value(
+    return StreamProvider<List<Information>>.value(
       value: DatabaseService(uid: user?.uid).info,
-      initialData: Information(
-        name: '',
-        bluetooth_id: '',
-        license_plate: '',
-      ),
+      initialData: List<Information>.empty(),
       child: Scaffold(
         backgroundColor: Color(0xff7AA5C5),
         appBar: AppBar(
@@ -42,6 +40,14 @@ class Home extends StatelessWidget {
           elevation: 0.0,
           title: Text('Registration'),
           actions: <Widget>[
+            // TextButton.icon(
+            //   icon: Icon(Icons.settings),
+            //   label: Text('Settings'),
+            //   onPressed: () {},
+            //   style: TextButton.styleFrom(
+            //     primary: Colors.white,
+            //   ),
+            // ),
             TextButton.icon(
               icon: Icon(Icons.person),
               label: Text('Logout'),
@@ -52,14 +58,6 @@ class Home extends StatelessWidget {
                 primary: Colors.white,
               ),
             ),
-            TextButton.icon(
-              icon: Icon(Icons.settings),
-              label: Text('Settings'),
-              onPressed: () => _showSettingsPanel(),
-              style: TextButton.styleFrom(
-                primary: Colors.white,
-              ),
-            )
           ],
         ),
         body: Container(
@@ -72,7 +70,9 @@ class Home extends StatelessWidget {
             child: BrewList()),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // Add your onPressed code here!
+            DatabaseService(uid: user?.uid).info.listen((infoList) {
+              _showSettingsPanel(infoList.length + 1);
+            });
           },
           backgroundColor: Color(0xff4B667A),
           child: const Icon(Icons.add),

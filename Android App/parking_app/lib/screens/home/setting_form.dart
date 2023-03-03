@@ -6,9 +6,10 @@ import 'package:parking_app/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 class SettingForm extends StatefulWidget {
-  const SettingForm({Key? key}) : super(key: key);
+  final int index;
+
+  const SettingForm({Key? key, required this.index}) : super(key: key);
 
   @override
   State<SettingForm> createState() => _SettingFormState();
@@ -31,6 +32,13 @@ class _SettingFormState extends State<SettingForm> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             DocumentSnapshot<Object?>? userData = snapshot.data;
+            var data = userData!.data() as Map<String, dynamic>;
+            // print(data.keys.toList().toString());
+            // print(widget.index.toString());
+            // print(data.keys
+            //     .toList()
+            //     .toString()
+            //     .contains(widget.index.toString()));
             return Scaffold(
               resizeToAvoidBottomInset: false,
               body: SingleChildScrollView(
@@ -41,77 +49,94 @@ class _SettingFormState extends State<SettingForm> {
                     key: _formKey,
                     child: Column(
                       children: <Widget>[
-                        SizedBox(height: 20.0),
-
-                        Text('Update Your Information',
-                            style: TextStyle(fontSize: 20.0)),
-
-                        SizedBox(height: 40.0),
-
+                        const SizedBox(height: 20.0),
+                        const Text('Update Your Information',
+                            style: const TextStyle(fontSize: 20.0)),
+                        const SizedBox(height: 40.0),
                         TextFormField(
-                          initialValue: userData!['name'],
-                          decoration: InputDecoration(
+                          initialValue: data.keys
+                                  .toList()
+                                  .toString()
+                                  .contains(widget.index.toString())
+                              ? userData[widget.index.toString()]['name']
+                              : ' ',
+                          decoration: const InputDecoration(
                             labelText: "Name",
                             fillColor: Colors.white,
                             hintText: 'Enter your name',
-
                           ),
                           validator: (val) =>
                               val!.isEmpty ? 'Please enter a name' : null,
-                          onChanged: (val) => setState(() => _currentName = val),
+                          onChanged: (val) =>
+                              setState(() => _currentName = val),
                         ),
-
-                        SizedBox(height: 20),
-
+                        const SizedBox(height: 20),
                         TextFormField(
-                          initialValue: userData['license_plate'],
-                          decoration: InputDecoration(
+                          initialValue: data.keys
+                                  .toList()
+                                  .toString()
+                                  .contains(widget.index.toString())
+                              ? userData[widget.index.toString()]
+                                  ['license_plate']
+                              : ' ',
+                          decoration: const InputDecoration(
                             labelText: "License Plate Number",
                             fillColor: Colors.white,
                             hintText: 'Enter your license plate number',
-
                           ),
-                          validator: (val) =>
-                              val!.isEmpty ? 'Please enter a license plate number' : null,
-                          onChanged: (val) => setState(() => _currentLicense = val),
+                          validator: (val) => val!.isEmpty
+                              ? 'Please enter a license plate number'
+                              : null,
+                          onChanged: (val) =>
+                              setState(() => _currentLicense = val),
                         ),
-
-                        SizedBox(height: 20.0),
-
+                        const SizedBox(height: 20.0),
                         TextFormField(
-                          initialValue: userData['bluetooth_id'],
-                          decoration: InputDecoration(
+                          initialValue: data.keys
+                                  .toList()
+                                  .toString()
+                                  .contains(widget.index.toString())
+                              ? userData[widget.index.toString()]
+                                  ['bluetooth_id']
+                              : ' ',
+                          decoration: const InputDecoration(
                             labelText: "Bluetooth ID",
                             fillColor: Colors.white,
                             hintText: 'Enter your bluetooth ID',
-
                           ),
-                          validator: (val) =>
-                              val!.isEmpty ? 'Please enter a bluetooth ID' : null,
+                          validator: (val) => val!.isEmpty
+                              ? 'Please enter a bluetooth ID'
+                              : null,
                           onChanged: (val) => setState(() => _currentBLE = val),
                         ),
-
-                        SizedBox(height: 40),
-
+                        const SizedBox(height: 40),
                         ElevatedButton(
-                          child:
-                              Text('Update', style: TextStyle(color: Colors.white)),
                           style: ElevatedButton.styleFrom(
-                            primary: Color(0xffB62D2D),
+                            primary: const Color(0xffB62D2D),
                           ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              await DatabaseService(uid: user?.uid).updateUserData(
-                                _currentBLE ?? userData['bluetooth_id'],
-                                _currentName ?? userData['name'],
-                                _currentLicense ?? userData['license_plate'],
+                              await DatabaseService(uid: user?.uid)
+                                  .updateUserData(
+                                widget.index,
+                                _currentBLE ??
+                                    userData[widget.index.toString()]
+                                        ['bluetooth_id'],
+                                _currentName ??
+                                    userData[widget.index.toString()]['name'],
+                                _currentLicense ??
+                                    userData[widget.index.toString()]
+                                        ['license_plate'],
                               );
                               print(_currentBLE);
                               print(_currentName);
                               print(_currentLicense);
+                              // ignore: use_build_context_synchronously
                               Navigator.pop(context);
                             }
                           },
+                          child: const Text('Update',
+                              style: TextStyle(color: Colors.white)),
                         )
                       ],
                     ),
@@ -120,7 +145,7 @@ class _SettingFormState extends State<SettingForm> {
               ),
             );
           } else {
-            return Loading();
+            return const Loading();
           }
         });
   }
