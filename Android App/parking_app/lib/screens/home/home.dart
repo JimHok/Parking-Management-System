@@ -74,8 +74,12 @@ class Home extends StatelessWidget {
             var stream = DatabaseService(uid: user?.uid).userData;
             var snapshot = await stream.first;
             var infoList = snapshot.data() as Map<String, dynamic>;
-            var count = infoList.keys.length;
-            _showSettingsPanel(count + 1);
+            var infoListKeys = infoList.keys.toList();
+            var max = infoListKeys
+                .map(int.parse)
+                .toList()
+                .reduce((value, element) => value > element ? value : element);
+            _showSettingsPanel(max + 1);
           },
           backgroundColor: const Color(0xff4B667A),
           child: const Icon(Icons.add),

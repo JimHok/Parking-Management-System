@@ -17,12 +17,31 @@ class _BrewListState extends State<BrewList> {
   @override
   Widget build(BuildContext context) {
     final info = Provider.of<List<Information>?>(context);
+    final user = Provider.of<UserParam?>(context);
 
-    return ListView.builder(
-      itemCount: info?.length ?? 0,
-      itemBuilder: (context, index) {
-        // print(index);
-        return BrewTile(verification: info![index], index: index + 1);
+    var stream = DatabaseService(uid: user?.uid).userData;
+
+    return FutureBuilder<DocumentSnapshot>(
+      future: stream.first,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData) {
+          return Text('No data found');
+        }
+
+        var infoList = snapshot.data!.data() as Map<String, dynamic>;
+        var infokey = infoList.keys.toList();
+
+        return ListView.builder(
+          itemCount: info?.length ?? 0,
+          itemBuilder: (context, index) {
+            return BrewTile(
+                verification: info![index], index: int.parse(infokey[index]));
+          },
+        );
       },
     );
   }

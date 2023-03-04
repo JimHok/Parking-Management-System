@@ -59,7 +59,7 @@ class _SettingFormState extends State<SettingForm> {
                                   .toString()
                                   .contains(widget.index.toString())
                               ? userData[widget.index.toString()]['name']
-                              : ' ',
+                              : '',
                           decoration: const InputDecoration(
                             labelText: "Name",
                             fillColor: Colors.white,
@@ -78,7 +78,7 @@ class _SettingFormState extends State<SettingForm> {
                                   .contains(widget.index.toString())
                               ? userData[widget.index.toString()]
                                   ['license_plate']
-                              : ' ',
+                              : '',
                           decoration: const InputDecoration(
                             labelText: "License Plate Number",
                             fillColor: Colors.white,
@@ -98,7 +98,7 @@ class _SettingFormState extends State<SettingForm> {
                                   .contains(widget.index.toString())
                               ? userData[widget.index.toString()]
                                   ['bluetooth_id']
-                              : ' ',
+                              : '',
                           decoration: const InputDecoration(
                             labelText: "Bluetooth ID",
                             fillColor: Colors.white,
