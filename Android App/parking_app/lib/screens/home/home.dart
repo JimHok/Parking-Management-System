@@ -17,34 +17,41 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserParam?>(context);
 
-    void _showSettingsPanel() {
+    void _showSettingsPanel(Index) {
       showModalBottomSheet(
           context: context,
           builder: (context) {
             return Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-              child: SettingForm(),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+              child: SettingForm(
+                index: Index,
+              ),
             );
           });
     }
 
-    return StreamProvider<Information>.value(
+    return StreamProvider<List<Information>>.value(
       value: DatabaseService(uid: user?.uid).info,
-      initialData: Information(
-        name: '',
-        bluetooth_id: '',
-        license_plate: '',
-      ),
+      initialData: List<Information>.empty(),
       child: Scaffold(
         backgroundColor: Color(0xff7AA5C5),
         appBar: AppBar(
           backgroundColor: Color(0xff4B667A),
           elevation: 0.0,
-          title: Text('Registration'),
+          title: const Text('Registration'),
           actions: <Widget>[
+            // TextButton.icon(
+            //   icon: Icon(Icons.settings),
+            //   label: Text('Settings'),
+            //   onPressed: () {},
+            //   style: TextButton.styleFrom(
+            //     primary: Colors.white,
+            //   ),
+            // ),
             TextButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('Logout'),
+              icon: const Icon(Icons.person),
+              label: const Text('Logout'),
               onPressed: () async {
                 await _auth.signOut();
               },
@@ -52,29 +59,25 @@ class Home extends StatelessWidget {
                 primary: Colors.white,
               ),
             ),
-            TextButton.icon(
-              icon: Icon(Icons.settings),
-              label: Text('Settings'),
-              onPressed: () => _showSettingsPanel(),
-              style: TextButton.styleFrom(
-                primary: Colors.white,
-              ),
-            )
           ],
         ),
         body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/car_bg.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
-            child: BrewList()),
+            child: const BrewList()),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Add your onPressed code here!
+          onPressed: () async {
+            var stream = DatabaseService(uid: user?.uid).userData;
+            var snapshot = await stream.first;
+            var infoList = snapshot.data() as Map<String, dynamic>;
+            var count = infoList.keys.length;
+            _showSettingsPanel(count + 1);
           },
-          backgroundColor: Color(0xff4B667A),
+          backgroundColor: const Color(0xff4B667A),
           child: const Icon(Icons.add),
         ),
       ),
