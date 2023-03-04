@@ -31,6 +31,12 @@ class DatabaseService {
     });
   }
 
+  Future deleteUserData(int index) async {
+    return await brewCollection.doc(uid).update({
+      '$index': FieldValue.delete(),
+    });
+  }
+
   // brew list from snapshot
   List<Information> _brewListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
@@ -42,7 +48,7 @@ class DatabaseService {
     }).toList();
   }
 
-  // brew data from snapshot
+  // info data from snapshot
   List<Information> _getInfoFromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     return data.values.map((data) {

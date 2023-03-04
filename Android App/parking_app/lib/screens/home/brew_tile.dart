@@ -25,14 +25,16 @@ class BrewTile extends StatelessWidget {
       padding: EdgeInsets.only(top: 8.0),
       child: Card(
         margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
+        color: Color.fromARGB(255, 73, 100, 116),
         child: ListTile(
           leading: CircleAvatar(
             radius: 25.0,
             backgroundImage: AssetImage('assets/car_icon.png'),
           ),
-          title: Text(verification!.name!),
-          subtitle:
-              Text('Licence Plate Number: ${verification!.license_plate}'),
+          title: Text(verification!.name!,
+              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
+          subtitle: Text('Licence Plate Number: ${verification!.license_plate}',
+              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
           onTap: () => _showSettingsPanel(),
         ),
       ),

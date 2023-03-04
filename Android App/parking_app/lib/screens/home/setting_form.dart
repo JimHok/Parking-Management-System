@@ -110,33 +110,55 @@ class _SettingFormState extends State<SettingForm> {
                           onChanged: (val) => setState(() => _currentBLE = val),
                         ),
                         const SizedBox(height: 40),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(0xffB62D2D),
-                          ),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              await DatabaseService(uid: user?.uid)
-                                  .updateUserData(
-                                widget.index,
-                                _currentBLE ??
-                                    userData[widget.index.toString()]
-                                        ['bluetooth_id'],
-                                _currentName ??
-                                    userData[widget.index.toString()]['name'],
-                                _currentLicense ??
-                                    userData[widget.index.toString()]
-                                        ['license_plate'],
-                              );
-                              print(_currentBLE);
-                              print(_currentName);
-                              print(_currentLicense);
-                              // ignore: use_build_context_synchronously
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: const Text('Update',
-                              style: TextStyle(color: Colors.white)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color(0xff4B667A),
+                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  await DatabaseService(uid: user?.uid)
+                                      .updateUserData(
+                                    widget.index,
+                                    _currentBLE ??
+                                        userData[widget.index.toString()]
+                                            ['bluetooth_id'],
+                                    _currentName ??
+                                        userData[widget.index.toString()]
+                                            ['name'],
+                                    _currentLicense ??
+                                        userData[widget.index.toString()]
+                                            ['license_plate'],
+                                  );
+                                  print(_currentBLE);
+                                  print(_currentName);
+                                  print(_currentLicense);
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: const Text('Update',
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                            const SizedBox(width: 80),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color(0xffB62D2D),
+                              ),
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  await DatabaseService(uid: user?.uid)
+                                      .deleteUserData(widget.index);
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pop(context);
+                                }
+                              },
+                              child: const Text('Delete',
+                                  style: TextStyle(color: Colors.white)),
+                            ),
+                          ],
                         )
                       ],
                     ),

@@ -22,7 +22,8 @@ class Home extends StatelessWidget {
           context: context,
           builder: (context) {
             return Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
               child: SettingForm(
                 index: Index,
               ),
@@ -38,7 +39,7 @@ class Home extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Color(0xff4B667A),
           elevation: 0.0,
-          title: Text('Registration'),
+          title: const Text('Registration'),
           actions: <Widget>[
             // TextButton.icon(
             //   icon: Icon(Icons.settings),
@@ -49,8 +50,8 @@ class Home extends StatelessWidget {
             //   ),
             // ),
             TextButton.icon(
-              icon: Icon(Icons.person),
-              label: Text('Logout'),
+              icon: const Icon(Icons.person),
+              label: const Text('Logout'),
               onPressed: () async {
                 await _auth.signOut();
               },
@@ -61,20 +62,22 @@ class Home extends StatelessWidget {
           ],
         ),
         body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/car_bg.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
-            child: BrewList()),
+            child: const BrewList()),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            DatabaseService(uid: user?.uid).info.listen((infoList) {
-              _showSettingsPanel(infoList.length + 1);
-            });
+          onPressed: () async {
+            var stream = DatabaseService(uid: user?.uid).userData;
+            var snapshot = await stream.first;
+            var infoList = snapshot.data() as Map<String, dynamic>;
+            var count = infoList.keys.length;
+            _showSettingsPanel(count + 1);
           },
-          backgroundColor: Color(0xff4B667A),
+          backgroundColor: const Color(0xff4B667A),
           child: const Icon(Icons.add),
         ),
       ),
