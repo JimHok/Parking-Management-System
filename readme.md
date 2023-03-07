@@ -1,4 +1,4 @@
-# Parking Lot Management System (Group 5)
+# Parking Lot Management System in Condominium (Group 5)
 
 ## Objectives
 
