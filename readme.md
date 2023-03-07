@@ -71,6 +71,8 @@ Acceptance Criteria:
 
 ## Software Architecture
 ![alt text](https://github.com/JimHok/Software-Design-for-AI/blob/master/Readme-Content/Image/287838.jpg)
+![alt text](https://github.com/JimHok/Software-Design-for-AI/blob/master/Readme-Content/Image/Workflow3.jpg)
+![alt text](https://github.com/JimHok/Software-Design-for-AI/blob/master/Readme-Content/Image/Workflow2.jpg)
 
 ### ESP-32 tag:
 
