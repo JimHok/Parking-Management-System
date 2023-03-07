@@ -70,6 +70,7 @@ Acceptance Criteria:
 ### UI layer:
 
 ## Software Architecture
+![alt text](https://github.com/JimHok/Software-Design-for-AI/blob/master/Readme-Content/Image/287838.jpg)
 
 ### ESP-32 tag:
 
