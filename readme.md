@@ -18,9 +18,10 @@ As a parking lot user, I want to be able to easily enter and exit the parking lo
 
 - Scenario: Confirmation message display, given a user enters or exits the parking lot, when the barricade opens, then the system should display a confirmation message to the user.
 
+
 ### User Story 2:
 
-As a parking lot manager, I want the system to detect the license plate number of vehicles entering the parking lot, check if the plate number is in the database, and use Bluetooth signal to double check that the passed user is not using a fake license plate. If the plate number is in the database and the Bluetooth signal matches, I want the system to open the barricade and allow the user to enter.
+As a administrator, I want the system to detect the license plate number of vehicles entering the parking lot, check if the plate number is in the database, and use Bluetooth signal to double check that the passed user is not using a fake license plate. If the plate number is in the database and the Bluetooth signal matches, I want the system to open the barricade and allow the user to enter.
 
 - Scenario: vehicle enters parking lot, given a vehicle approaches the entrance with a license plate, when the license plate number is detected and checked against the database, and the Bluetooth signal matches with the detected license plate number, then the barricade opens and allows the user to enter.
 
@@ -28,13 +29,24 @@ As a parking lot manager, I want the system to detect the license plate number o
 
 ### User Story 3:
 
-As a parking lot manager, I want the system to maintain a record of vehicles entering and exiting the parking lot.
+As a administrator, I want the system to maintain a record of vehicles entering and exiting the parking lot.
 
 - Scenario: vehicle enters parking lot, given a vehicle enters the parking lot, then the system records the license plate number and entry timestamp in the database.
 
 - Scenario: vehicle exits parking lot, given a vehicle exits the parking lot, then the system records the license plate number and exit timestamp in the database.
 
 - Scenario: record query, given a parking lot manager queries the record database, then the system responds with the history (timestamp, entry/exit time) of the queried license plate number.
+
+
+### User Story 4:
+
+As a parking lot user, I want to be able to book a parking spot for my friend who is visiting me, so that they can easily park their car without any hassle.
+
+- Scenario: Parking spot booking, given a user wants to book a parking spot for their friend, when they enter their friend's license plate number and the expected arrival time in the application, then the system should reserve a parking spot for the designated time period.
+
+- Scenario: Guest parking, given a guest arrives at the parking lot, when their license plate number is detected by the system, then the system should automatically recognize the booking and allow the guest to park in the designated parking spot.
+
+- Scenario: Booking modification, given a user wants to modify or cancel the booking, when they access the booking details in the application, then the system should allow them to make the necessary changes or cancel the booking.
 
 
 
