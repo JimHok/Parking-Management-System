@@ -64,7 +64,7 @@ As a parking lot user, I want to be able to book a parking spot for my friend wh
 ![alt text](https://github.com/JimHok/Software-Design-for-AI/blob/master/Readme-Content/Image/Workflow3.jpg)
 ![alt text](https://github.com/JimHok/Software-Design-for-AI/blob/master/Readme-Content/Image/Workflow2.jpg)
 
-![Database Diagram]()
+![Database Diagram](https://github.com/JimHok/Software-Design-for-AI/blob/master/Readme-Content/Image/Database-Diagram.png)
 
 ### ESP-32 tag:
 
