@@ -33,7 +33,7 @@ class BrewTile extends StatelessWidget {
           ),
           title: Text(verification!.name!,
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
-          subtitle: Text('Licence Plate Number: ${verification!.license_plate}',
+          subtitle: Text('Parking Status: ${verification!.status}',
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
           onTap: () => _showSettingsPanel(),
         ),
