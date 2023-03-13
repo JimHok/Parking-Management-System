@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:parking_app/shared/loading.dart';
+import 'package:parking_app/screens/reservation/reservation.dart';
 
 import 'package:parking_app/services/auth.dart';
 import 'package:parking_app/services/database.dart';
@@ -41,16 +42,21 @@ class Home extends StatelessWidget {
           elevation: 0.0,
           title: const Text('Registration'),
           actions: <Widget>[
-            // TextButton.icon(
-            //   icon: Icon(Icons.settings),
-            //   label: Text('Settings'),
-            //   onPressed: () {},
-            //   style: TextButton.styleFrom(
-            //     primary: Colors.white,
-            //   ),
-            // ),
             TextButton.icon(
-              icon: const Icon(Icons.person),
+              icon: Icon(Icons.car_rental),
+              label: Text('Reserve'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Reservation()));
+              },
+              style: TextButton.styleFrom(
+                primary: Colors.white,
+              ),
+            ),
+            TextButton.icon(
+              icon: const Icon(Icons.account_circle_outlined),
               label: const Text('Logout'),
               onPressed: () async {
                 await _auth.signOut();

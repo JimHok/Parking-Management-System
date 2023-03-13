@@ -121,17 +121,24 @@ class _SettingFormState extends State<SettingForm> {
                                 if (_formKey.currentState!.validate()) {
                                   await DatabaseService(uid: user?.uid)
                                       .updateUserData(
-                                    widget.index,
-                                    _currentBLE ??
-                                        userData[widget.index.toString()]
-                                            ['bluetooth_id'],
-                                    _currentName ??
-                                        userData[widget.index.toString()]
-                                            ['name'],
-                                    _currentLicense ??
-                                        userData[widget.index.toString()]
-                                            ['license_plate'],
-                                  );
+                                          widget.index,
+                                          _currentBLE ??
+                                              userData[widget.index.toString()]
+                                                  ['bluetooth_id'],
+                                          _currentName ??
+                                              userData[widget.index.toString()]
+                                                  ['name'],
+                                          _currentLicense ??
+                                              userData[widget.index.toString()]
+                                                  ['license_plate'],
+                                          data.keys
+                                                  .toList()
+                                                  .toString()
+                                                  .contains(
+                                                      widget.index.toString())
+                                              ? userData[widget.index
+                                                  .toString()]['status']
+                                              : 'Not Parking');
                                   print(_currentBLE);
                                   print(_currentName);
                                   print(_currentLicense);
