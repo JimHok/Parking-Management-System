@@ -23,7 +23,7 @@ class _ReservationState extends State<Reservation> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserParam?>(context);
 
-    return StreamProvider<List<Reserve>?>.value(
+    return StreamProvider<List<String>?>.value(
       value: DatabaseService().reserve,
       initialData: null,
       child: Scaffold(

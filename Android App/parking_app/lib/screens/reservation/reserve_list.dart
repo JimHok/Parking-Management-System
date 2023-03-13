@@ -15,12 +15,13 @@ class ReserveList extends StatefulWidget {
 class _ReserveListState extends State<ReserveList> {
   @override
   Widget build(BuildContext context) {
-    final info = Provider.of<List<Reserve>?>(context);
+    final reserve = Provider.of<List<String>?>(context);
+    print(reserve?.length);
 
     return ListView.builder(
-      itemCount: info?.length ?? 0,
+      itemCount: reserve?.length ?? 0,
       itemBuilder: (context, index) {
-        return ReserveTile(reserve: info![index], index: index + 1);
+        return ReserveTile(reserve: reserve![index], index: index + 1);
       },
     );
   }

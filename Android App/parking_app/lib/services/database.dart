@@ -37,12 +37,15 @@ class DatabaseService {
     });
   }
 
-  Future updateReserveData(
-      DateTime duration, String status, String user) async {
+  Future updateReserveData(String duration, String status, String user) async {
     return await reservationCollection.doc(uid).update({
-      'duration': duration,
-      'status': status,
-      'uid': user,
+      'reservations': FieldValue.arrayUnion([
+        {
+          'duration': duration,
+          'status': status,
+          'uid': user,
+        }
+      ])
     });
   }
 
@@ -64,16 +67,6 @@ class DatabaseService {
     }).toList();
   }
 
-  List<Reserve> _reserveListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      return Reserve(
-        duration: doc.get('duration').toDate() ?? 1638592424384,
-        status: doc.get('status') ?? '',
-        uid: doc.get('uid') ?? '',
-      );
-    }).toList();
-  }
-
   // info data from snapshot
   List<Information> _getInfoFromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
@@ -87,17 +80,25 @@ class DatabaseService {
     }).toList();
   }
 
+  List<String> _reserveListFromSnapshot(QuerySnapshot snapshot) {
+    List<String> ids = [];
+    snapshot.docs.forEach((doc) {
+      ids.add(doc.id);
+    });
+    return ids;
+  }
+
   // get users stream
   Stream<List<Information>> get users {
     return usersCollection.snapshots().map(_usersListFromSnapshot);
   }
 
-  Stream<List<Reserve>> get reserve {
-    return reservationCollection.snapshots().map(_reserveListFromSnapshot);
-  }
-
   Stream<List<Information>> get info {
     return usersCollection.doc(uid).snapshots().map(_getInfoFromSnapshot);
+  }
+
+  Stream<List<String>> get reserve {
+    return reservationCollection.snapshots().map(_reserveListFromSnapshot);
   }
 
   // get user doc stream
