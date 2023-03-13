@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:parking_app/screens/reservation/reserve_form.dart';
 
 class ReserveTile extends StatelessWidget {
-  final String? reserve;
+  final String? doc_id;
   final int? index;
-  ReserveTile({this.reserve, this.index});
+  ReserveTile({this.doc_id, this.index});
 
   @override
   Widget build(BuildContext context) {
-    void _showReservePanel(index) {
+    void _showReservePanel(doc_id) {
       showModalBottomSheet(
           context: context,
           builder: (context) {
@@ -20,7 +20,7 @@ class ReserveTile extends StatelessWidget {
                 child: Container(
                   padding:
                       EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                  child: ReserveForm(index: index),
+                  child: ReserveForm(doc_id: doc_id),
                 ));
           },
           isScrollControlled: true);
@@ -47,7 +47,7 @@ class ReserveTile extends StatelessWidget {
           subtitle: Text('Place Holder',
               style:
                   const TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
-          onTap: () => _showReservePanel(index),
+          onTap: () => _showReservePanel(doc_id),
         ),
       ),
     );

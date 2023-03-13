@@ -9,9 +9,10 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
 class ReserveForm extends StatefulWidget {
-  final int? index;
+  // final int? index;
+  final String? doc_id;
 
-  const ReserveForm({Key? key, this.index}) : super(key: key);
+  const ReserveForm({Key? key, this.doc_id}) : super(key: key);
 
   @override
   State<ReserveForm> createState() => _ReserveFormState();
@@ -33,10 +34,10 @@ class _ReserveFormState extends State<ReserveForm> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserParam?>(context);
     final bottom = MediaQuery.of(context).viewInsets.bottom;
-    final index = widget.index;
+    final doc_id = widget.doc_id;
 
     return StreamBuilder<DocumentSnapshot>(
-      stream: DatabaseService(uid: index.toString()).reserveData,
+      stream: DatabaseService(uid: doc_id).reserveData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           DocumentSnapshot<Object?>? reserveData = snapshot.data;
@@ -158,8 +159,7 @@ class _ReserveFormState extends State<ReserveForm> {
                       ),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await DatabaseService(uid: index.toString())
-                              .updateReserveData(
+                          await DatabaseService(uid: doc_id).updateReserveData(
                             selected_day.toString().split(" ")[0],
                             'Reserved',
                             user?.uid.toString() ?? '',

@@ -16,12 +16,12 @@ class _ReserveListState extends State<ReserveList> {
   @override
   Widget build(BuildContext context) {
     final reserve = Provider.of<List<String>?>(context);
-    print(reserve?.length);
 
     return ListView.builder(
       itemCount: reserve?.length ?? 0,
       itemBuilder: (context, index) {
-        return ReserveTile(reserve: reserve![index], index: index + 1);
+        // print(reserve![index]);
+        return ReserveTile(doc_id: reserve![index], index: index + 1);
       },
     );
   }
