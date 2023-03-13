@@ -37,6 +37,12 @@ class DatabaseService {
     });
   }
 
+  Future deleteUserData(int index) async {
+    return await usersCollection.doc(uid).update({
+      '$index': FieldValue.delete(),
+    });
+  }
+
   Future updateReserveData(String duration, String status, String user) async {
     return await reservationCollection.doc(uid).update({
       'reservations': FieldValue.arrayUnion([
@@ -49,9 +55,15 @@ class DatabaseService {
     });
   }
 
-  Future deleteUserData(int index) async {
-    return await usersCollection.doc(uid).update({
-      '$index': FieldValue.delete(),
+  Future deleteReserveData(String duration, String status, String user) async {
+    return await reservationCollection.doc(uid).update({
+      'reservations': FieldValue.arrayRemove([
+        {
+          'duration': duration,
+          'status': status,
+          'uid': user,
+        }
+      ])
     });
   }
 

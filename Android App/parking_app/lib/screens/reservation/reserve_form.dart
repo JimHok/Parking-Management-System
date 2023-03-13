@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:quiver/iterables.dart';
 
 class ReserveForm extends StatefulWidget {
   // final int? index;
@@ -44,8 +45,11 @@ class _ReserveFormState extends State<ReserveForm> {
           List<dynamic> reservations =
               (reserveData?.data() as Map<String, dynamic>)['reservations'] ??
                   [];
-          List<String> reservedDates = reservations
+          List<String> reserveDates = reservations
               .map<String>((reservation) => reservation['duration'].toString())
+              .toList();
+          List<String> reserveUID = reservations
+              .map<String>((reservation) => reservation['uid'].toString())
               .toList();
 
           return Scaffold(
@@ -58,7 +62,7 @@ class _ReserveFormState extends State<ReserveForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     SizedBox(height: 20.0),
-                    Text('Reserve a Parking Spot',
+                    const Text('Reserve a Parking Spot',
                         style: TextStyle(fontSize: 25.0)),
                     TableCalendar(
                       headerStyle: const HeaderStyle(
@@ -69,9 +73,7 @@ class _ReserveFormState extends State<ReserveForm> {
                         ),
                       ),
                       selectedDayPredicate: (day) =>
-                          isSameDay(day, selected_day) &&
-                          !reservedDates
-                              .contains(DateFormat('yyyy-MM-dd').format(day)),
+                          isSameDay(day, selected_day),
                       focusedDay: selected_day,
                       firstDay: today,
                       lastDay: today.add(Duration(days: 90)),
@@ -91,41 +93,61 @@ class _ReserveFormState extends State<ReserveForm> {
                         ),
                         selectedTextStyle: TextStyle(color: Colors.white),
                         todayDecoration: BoxDecoration(
-                          color: Color.fromARGB(132, 22, 126, 121),
+                          color: Color.fromARGB(132, 116, 116, 116),
                           shape: BoxShape.rectangle,
                         ),
                         todayTextStyle: TextStyle(color: Colors.white),
                       ),
                       calendarBuilders: CalendarBuilders(
                         defaultBuilder: (context, day, focusedDay) {
-                          for (String reservedDate in reservedDates) {
-                            DateTime d = DateTime.parse(reservedDate);
+                          for (var reservedDate
+                              in zip([reserveDates, reserveUID])) {
+                            DateTime d = DateTime.parse(reservedDate[0]);
+                            String uid = reservedDate[1];
                             if (day.day == d.day &&
                                 day.month == d.month &&
                                 day.year == d.year) {
-                              return Container(
-                                margin: const EdgeInsets.all(6.0),
-                                decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 153, 11, 11),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromARGB(120, 0, 0, 0),
-                                      blurRadius: 5.0,
-                                      spreadRadius: 1.0,
-                                      offset: Offset(4.0, 4.0),
-                                    ),
-                                  ],
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '${day.day}',
-                                    style: const TextStyle(color: Colors.white),
+                              if (uid != user?.uid.toString()) {
+                                return Container(
+                                  margin: const EdgeInsets.all(6.0),
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromARGB(255, 153, 11, 11),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color.fromARGB(120, 0, 0, 0),
+                                        blurRadius: 5.0,
+                                        spreadRadius: 1.0,
+                                        offset: Offset(4.0, 4.0),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              );
+                                  child: Center(
+                                    child: Text(
+                                      '${day.day}',
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return Container(
+                                  margin: const EdgeInsets.all(6.0),
+                                  decoration: const BoxDecoration(
+                                    color: Color.fromARGB(132, 22, 126, 121),
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '${day.day}',
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                );
+                              }
                             }
                           }
-                          if (!reservedDates
+                          if (!reserveDates
                               .contains(DateFormat('yyyy-MM-dd').format(day))) {
                             return null;
                           }
@@ -147,26 +169,70 @@ class _ReserveFormState extends State<ReserveForm> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    ElevatedButton(
-                      child: Text('Reserve',
-                          style: TextStyle(color: Colors.white)),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 22, 126, 121),
-                        minimumSize: Size(200, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: !reserveDates.contains(
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(selected_day))
+                                ? Color.fromARGB(255, 22, 126, 121)
+                                : Color.fromARGB(255, 73, 73, 73),
+                            minimumSize: Size(150, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          onPressed: () async {
+                            if (!reserveDates.contains(DateFormat('yyyy-MM-dd')
+                                .format(selected_day))) {
+                              await DatabaseService(uid: doc_id)
+                                  .updateReserveData(
+                                selected_day.toString().split(" ")[0],
+                                'Reserved',
+                                user?.uid.toString() ?? '',
+                              );
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: const Text('Reserve',
+                              style: TextStyle(color: Colors.white)),
                         ),
-                      ),
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await DatabaseService(uid: doc_id).updateReserveData(
-                            selected_day.toString().split(" ")[0],
-                            'Reserved',
-                            user?.uid.toString() ?? '',
-                          );
-                          Navigator.pop(context);
-                        }
-                      },
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: !reserveDates.contains(
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(selected_day))
+                                ? Color.fromARGB(255, 153, 11, 11)
+                                : reserveUID[reserveDates.indexOf(
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(selected_day))] ==
+                                        user?.uid.toString()
+                                    ? Color.fromARGB(255, 153, 11, 11)
+                                    : Color.fromARGB(255, 73, 73, 73),
+                            minimumSize: Size(150, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                          onPressed: () async {
+                            int index = reserveDates.indexOf(
+                                DateFormat('yyyy-MM-dd').format(selected_day));
+                            if (reserveUID[index] == user?.uid.toString()) {
+                              await DatabaseService(uid: doc_id)
+                                  .deleteReserveData(
+                                selected_day.toString().split(" ")[0],
+                                'Reserved',
+                                user?.uid.toString() ?? '',
+                              );
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: const Text('Cancel',
+                              style: TextStyle(color: Colors.white)),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 20),
                   ],
