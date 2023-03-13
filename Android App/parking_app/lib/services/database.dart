@@ -38,11 +38,11 @@ class DatabaseService {
   }
 
   Future updateReserveData(
-      Timestamp duration, String status, String uid) async {
-    return await usersCollection.doc(uid).update({
+      DateTime duration, String status, String user) async {
+    return await reservationCollection.doc(uid).update({
       'duration': duration,
       'status': status,
-      'uid': uid,
+      'uid': user,
     });
   }
 
@@ -67,7 +67,7 @@ class DatabaseService {
   List<Reserve> _reserveListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Reserve(
-        duration: doc.get('duration') ?? 1638592424384,
+        duration: doc.get('duration').toDate() ?? 1638592424384,
         status: doc.get('status') ?? '',
         uid: doc.get('uid') ?? '',
       );
@@ -103,5 +103,10 @@ class DatabaseService {
   // get user doc stream
   Stream<DocumentSnapshot> get userData {
     return usersCollection.doc(uid).snapshots();
+  }
+
+  // get user doc stream
+  Stream<DocumentSnapshot> get reserveData {
+    return reservationCollection.doc(uid).snapshots();
   }
 }

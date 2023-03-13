@@ -8,7 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class ReserveForm extends StatefulWidget {
-  const ReserveForm({Key? key}) : super(key: key);
+  final int? index;
+
+  const ReserveForm({Key? key, this.index}) : super(key: key);
 
   @override
   State<ReserveForm> createState() => _ReserveFormState();
@@ -17,22 +19,30 @@ class ReserveForm extends StatefulWidget {
 class _ReserveFormState extends State<ReserveForm> {
   final _formKey = GlobalKey<FormState>();
 
-  Timestamp? _currentDuration;
-  String? _currentStatus;
-  String? _currentUID;
-
+  DateTime selected_day = DateTime.now();
   DateTime today = DateTime.now();
+
+  void _onDaySelected(DateTime day, DateTime focusedDay) {
+    setState(() {
+      selected_day = day;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserParam?>(context);
     final bottom = MediaQuery.of(context).viewInsets.bottom;
+    final index = widget.index;
 
     return StreamBuilder<DocumentSnapshot>(
-        stream: DatabaseService(uid: user?.uid).userData,
+        stream: DatabaseService(uid: index.toString()).reserveData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            DocumentSnapshot<Object?>? userData = snapshot.data;
+            DocumentSnapshot<Object?>? reserveData = snapshot.data;
+            print(index.toString());
+            print(selected_day);
+            print(user?.uid);
+            print(reserveData?.data() as Map<String, dynamic>);
             return Scaffold(
               resizeToAvoidBottomInset: false,
               body: Padding(
@@ -40,71 +50,41 @@ class _ReserveFormState extends State<ReserveForm> {
                 child: Form(
                   key: _formKey,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(height: 20.0),
-                      Text('Update Your Information',
-                          style: TextStyle(fontSize: 20.0)),
-                      SizedBox(height: 20.0),
-                      // TextFormField(
-                      //   initialValue: userData!['duration'],
-                      //   decoration: InputDecoration(
-                      //     labelText: "Duration",
-                      //     fillColor: Colors.white,
-                      //     hintText: 'Enter your duration',
-                      //   ),
-                      //   validator: (val) =>
-                      //       val!.isEmpty ? 'Please enter a duration' : null,
-                      //   onChanged: (val) => setState(
-                      //       () => _currentDuration = val as Timestamp?),
-                      // ),
+                      Text('Reserve a Parking Spot',
+                          style: TextStyle(fontSize: 25.0)),
                       TableCalendar(
-                        focusedDay: today,
+                        headerStyle: const HeaderStyle(
+                          formatButtonVisible: false,
+                          titleCentered: true,
+                          titleTextStyle: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        selectedDayPredicate: (day) =>
+                            isSameDay(day, selected_day),
+                        focusedDay: selected_day,
                         firstDay: today,
-                        lastDay: today.add(Duration(days: 365)),
+                        lastDay: today.add(Duration(days: 90)),
+                        onDaySelected: _onDaySelected,
                       ),
-                      // SizedBox(height: 20),
-                      // TextFormField(
-                      //   initialValue: userData!['status'],
-                      //   decoration: InputDecoration(
-                      //     labelText: "Status",
-                      //     fillColor: Colors.white,
-                      //     hintText: 'Enter your status',
-                      //   ),
-                      //   validator: (val) =>
-                      //       val!.isEmpty ? 'Please enter a status' : null,
-                      //   onChanged: (val) => setState(() => _currentUID = val),
-                      // ),
-                      // SizedBox(height: 20.0),
-                      // TextFormField(
-                      //   initialValue: userData['uid'],
-                      //   decoration: InputDecoration(
-                      //     labelText: "UID",
-                      //     fillColor: Colors.white,
-                      //     hintText: 'Enter your uid',
-                      //   ),
-                      //   validator: (val) =>
-                      //       val!.isEmpty ? 'Please enter a uid' : null,
-                      //   onChanged: (val) =>
-                      //       setState(() => _currentStatus = val),
-                      // ),
                       SizedBox(height: 20),
                       ElevatedButton(
-                        child: Text('Update',
+                        child: Text('Reserve',
                             style: TextStyle(color: Colors.white)),
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xffB62D2D),
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            await DatabaseService(uid: user?.uid)
+                            await DatabaseService(uid: index.toString())
                                 .updateReserveData(
-                              _currentStatus ?? userData!['uid'],
-                              _currentDuration ?? userData!['duration'],
-                              _currentUID ?? userData!['status'],
+                              selected_day,
+                              'Reserved',
+                              user?.uid.toString() ?? '',
                             );
-                            print(_currentStatus);
-                            print(_currentDuration);
-                            print(_currentUID);
                             Navigator.pop(context);
                           }
                         },

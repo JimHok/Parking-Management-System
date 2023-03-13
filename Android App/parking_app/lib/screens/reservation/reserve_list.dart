@@ -20,7 +20,7 @@ class _ReserveListState extends State<ReserveList> {
     return ListView.builder(
       itemCount: info?.length ?? 0,
       itemBuilder: (context, index) {
-        return ReserveTile(reserve: info![index]);
+        return ReserveTile(reserve: info![index], index: index + 1);
       },
     );
   }

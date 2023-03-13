@@ -4,20 +4,22 @@ import 'package:parking_app/screens/reservation/reserve_form.dart';
 
 class ReserveTile extends StatelessWidget {
   final Reserve? reserve;
-  ReserveTile({this.reserve});
+  final int? index;
+  ReserveTile({this.reserve, this.index});
 
   @override
   Widget build(BuildContext context) {
-    void _showReservePanel() {
+    DateTime? date = reserve!.duration;
+    void _showReservePanel(index) {
       showModalBottomSheet(
           context: context,
           builder: (context) {
             return FractionallySizedBox(
-                heightFactor: 0.65,
+                heightFactor: 0.75,
                 child: Container(
                   padding:
-                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-                  child: ReserveForm(),
+                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  child: ReserveForm(index: index),
                 ));
           },
           isScrollControlled: true);
@@ -31,13 +33,17 @@ class ReserveTile extends StatelessWidget {
         child: ListTile(
           leading: CircleAvatar(
             radius: 25.0,
-            backgroundImage: AssetImage('assets/parking_icon.png'),
+            backgroundImage: AssetImage('assets/parking_icon.jpg'),
+            backgroundColor: Color.fromARGB(255, 11, 25, 128),
           ),
-          title: Text('Reserved Name: ${reserve!.uid!}',
+          title: Text('Reserved Date: ${date.toString().split(" ")[0]}',
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
-          subtitle: Text('Parking Lot: ${reserve!.status}',
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
-          onTap: () => _showReservePanel(),
+          subtitle: Text('${reserve!.status}',
+              style: reserve!.status == 'Reserved'
+                  ? TextStyle(color: Color.fromARGB(255, 255, 0, 0))
+                  : TextStyle(color: Color.fromARGB(255, 0, 255, 0))),
+          onTap: () =>
+              reserve!.status == 'Reserved' ? '' : _showReservePanel(index),
         ),
       ),
     );
