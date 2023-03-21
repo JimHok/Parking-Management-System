@@ -44,9 +44,8 @@ class ReserveTile extends StatelessWidget {
           //     style: reserve!.status == 'Reserved'
           //         ? const TextStyle(color: Color.fromARGB(255, 255, 0, 0))
           //         : const TextStyle(color: Color.fromARGB(255, 0, 255, 0))),
-          subtitle: Text('Place Holder',
-              style:
-                  const TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
+          subtitle: Text('Avaliable',
+              style: const TextStyle(color: Color.fromARGB(255, 0, 255, 13))),
           onTap: () => _showReservePanel(doc_id),
         ),
       ),

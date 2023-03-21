@@ -31,6 +31,21 @@ class _ReserveFormState extends State<ReserveForm> {
     });
   }
 
+  // Function to check and delete old reservations
+  Future<void> _checkAndDeleteOldReservations(
+      List<dynamic> reservations) async {
+    for (var reservation in reservations) {
+      DateTime reserveDate = DateTime.parse(reservation['duration'].toString());
+      if (reserveDate.isBefore(today.subtract(Duration(days: 1)))) {
+        await DatabaseService(uid: widget.doc_id).deleteReserveData(
+          reserveDate.toString().split(" ")[0],
+          'Reserved',
+          reservation['uid'].toString(),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserParam?>(context);
@@ -51,6 +66,8 @@ class _ReserveFormState extends State<ReserveForm> {
           List<String> reserveUID = reservations
               .map<String>((reservation) => reservation['uid'].toString())
               .toList();
+
+          _checkAndDeleteOldReservations(reservations);
 
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -204,7 +221,7 @@ class _ReserveFormState extends State<ReserveForm> {
                             primary: !reserveDates.contains(
                                     DateFormat('yyyy-MM-dd')
                                         .format(selected_day))
-                                ? Color.fromARGB(255, 153, 11, 11)
+                                ? Color.fromARGB(255, 73, 73, 73)
                                 : reserveUID[reserveDates.indexOf(
                                             DateFormat('yyyy-MM-dd')
                                                 .format(selected_day))] ==
@@ -219,14 +236,16 @@ class _ReserveFormState extends State<ReserveForm> {
                           onPressed: () async {
                             int index = reserveDates.indexOf(
                                 DateFormat('yyyy-MM-dd').format(selected_day));
-                            if (reserveUID[index] == user?.uid.toString()) {
-                              await DatabaseService(uid: doc_id)
-                                  .deleteReserveData(
-                                selected_day.toString().split(" ")[0],
-                                'Reserved',
-                                user?.uid.toString() ?? '',
-                              );
-                              Navigator.pop(context);
+                            if (index != -1) {
+                              if (reserveUID[index] == user?.uid.toString()) {
+                                await DatabaseService(uid: doc_id)
+                                    .deleteReserveData(
+                                  selected_day.toString().split(" ")[0],
+                                  'Reserved',
+                                  user?.uid.toString() ?? '',
+                                );
+                                Navigator.pop(context);
+                              }
                             }
                           },
                           child: const Text('Cancel',
