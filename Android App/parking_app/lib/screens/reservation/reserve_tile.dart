@@ -27,26 +27,42 @@ class ReserveTile extends StatelessWidget {
     }
 
     return Padding(
-      padding: EdgeInsets.only(top: 8.0),
-      child: Card(
-        margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-        color: Color.fromARGB(255, 73, 100, 116),
-        child: ListTile(
-          leading: const CircleAvatar(
-            radius: 25.0,
-            backgroundImage: AssetImage('assets/parking_icon.jpg'),
-            backgroundColor: Color.fromARGB(255, 11, 25, 128),
+      padding: EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: () => _showReservePanel(doc_id),
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            // color: Color.fromARGB(64, 114, 114, 114),
+            // border: Border.all(
+            //   color: Color.fromARGB(255, 114, 114, 114),
+            //   width: 2.0,
+            // ),
           ),
-          title: Text('Parking Lot ${index.toString()}',
-              style:
-                  const TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
-          // subtitle: Text('${reserve!.status}',
-          //     style: reserve!.status == 'Reserved'
-          //         ? const TextStyle(color: Color.fromARGB(255, 255, 0, 0))
-          //         : const TextStyle(color: Color.fromARGB(255, 0, 255, 0))),
-          subtitle: Text('Avaliable',
-              style: const TextStyle(color: Color.fromARGB(255, 0, 255, 13))),
-          onTap: () => _showReservePanel(doc_id),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  'P${index.toString().padLeft(3, '0')}',
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 92, 92, 92),
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              const Center(
+                child: Text(
+                  'Available',
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 41, 175, 15),
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
