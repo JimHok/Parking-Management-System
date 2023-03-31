@@ -33,8 +33,11 @@ class BrewTile extends StatelessWidget {
           ),
           title: Text(verification!.name!,
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
-          subtitle: Text('Parking Status: ${verification!.status}',
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
+          subtitle: Text('${verification!.status}',
+              style: TextStyle(
+                  color: verification!.status == 'Parked'
+                      ? Color.fromARGB(255, 41, 175, 15)
+                      : Color.fromARGB(255, 118, 15, 18))),
           onTap: () => _showSettingsPanel(),
         ),
       ),

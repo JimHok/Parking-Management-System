@@ -1,8 +1,5 @@
-import 'package:parking_app/models/reserve.dart';
-import 'package:parking_app/models/reserve.dart';
 import 'package:parking_app/screens/reservation/reserve_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 class ReserveList extends StatefulWidget {

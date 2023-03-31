@@ -41,6 +41,7 @@ dependencies:
   dropdown_button2: ^2.0.0
   table_calendar: ^3.0.8
   quiver: ^3.2.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
