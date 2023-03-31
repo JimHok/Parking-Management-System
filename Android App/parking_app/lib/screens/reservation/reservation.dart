@@ -27,17 +27,17 @@ class _ReservationState extends State<Reservation> {
       value: DatabaseService().reserve,
       initialData: null,
       child: Scaffold(
-        backgroundColor: Color(0xff7AA5C5),
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
           backgroundColor: Color(0xff4B667A),
           elevation: 0.0,
           title: Text('Reservation'),
         ),
         body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/car_bg.jpg'),
-                fit: BoxFit.cover,
+                image: AssetImage('assets/parking_lot_test.jpg'),
+                fit: BoxFit.fitHeight,
               ),
             ),
             child: ReserveList()),
