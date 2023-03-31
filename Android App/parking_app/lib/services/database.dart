@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:parking_app/models/time.dart';
 import 'package:parking_app/models/verification.dart';
 import 'package:parking_app/models/reserve.dart';
 
@@ -12,6 +13,9 @@ class DatabaseService {
 
   final CollectionReference reservationCollection =
       FirebaseFirestore.instance.collection('reservation');
+
+  final CollectionReference timeCollection =
+      FirebaseFirestore.instance.collection('time');
 
   Future setUserData(int index, String bluetooth_id, String name,
       String license_plate, String status) async {
@@ -67,7 +71,7 @@ class DatabaseService {
     });
   }
 
-  // brew list from snapshot
+  // user list from snapshot
   List<Information> _usersListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Information(
@@ -86,6 +90,17 @@ class DatabaseService {
       return Information(
         name: data['name'] ?? '',
         bluetooth_id: data['bluetooth_id'] ?? '',
+        license_plate: data['license_plate'] ?? '',
+        status: data['status'] ?? '',
+      );
+    }).toList();
+  }
+
+  List<Time> _getTimeFromSnapshot(DocumentSnapshot snapshot) {
+    List<dynamic> records = snapshot.get('record') as List<dynamic>;
+    return records.map((data) {
+      return Time(
+        time: data['time'] ?? '',
         license_plate: data['license_plate'] ?? '',
         status: data['status'] ?? '',
       );
@@ -111,6 +126,13 @@ class DatabaseService {
 
   Stream<List<String>> get reserve {
     return reservationCollection.snapshots().map(_reserveListFromSnapshot);
+  }
+
+  Stream<List<Time>> get time {
+    return timeCollection
+        .doc('timestamp')
+        .snapshots()
+        .map(_getTimeFromSnapshot);
   }
 
   // get user doc stream
