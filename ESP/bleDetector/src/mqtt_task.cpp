@@ -4,12 +4,12 @@
 #include "mqtt_task.h"
 
 // static variables
-const char* ssid = "???";
-const char* password = "???";
+const char* ssid = "AIS 4G Hi-Speed Hotspot WiFi_694284";
+const char* password = "51694284";
 const char* mqtt_broker = "broker.hivemq.com";
 const int mqtt_port = 1883;
-const char* mqtt_client_id = "???";
-const char* pub_topic = "???";
+const char* mqtt_client_id = "Suradit-p";
+const char* pub_topic = "ict720/suradit/data";
 const char* sub_topic = "???";
 WiFiClient espClient;
 PubSubClient mqttClient(espClient);
