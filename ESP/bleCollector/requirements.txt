@@ -1,2 +1,11 @@
 paho-mqtt
-pymongo
+python-dotenv
+opencv-python
+opencv-python-headless 
+matplotlib
+google-cloud-firestore
+firestore
+tensorflow
+numpy 
+scipy
+
