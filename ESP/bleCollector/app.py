@@ -78,7 +78,7 @@ def find_contours(dimensions, img) :
     cntrs = sorted(cntrs, key=cv2.contourArea, reverse=True)[:15]
     
     #ii = cv2.imread('/Users/conniji/aiot/Software-Design-for-AI/ESP/bleCollector/image/Ohio_License_Plate.jpg')
-    ii = cv2.imread('Ohio_License_Plate.jpg')
+    ii = cv2.imread('captured_photo.png')
     
     x_cntr_list = []
     target_contours = []
@@ -121,14 +121,19 @@ def find_contours(dimensions, img) :
         img_res_copy.append(img_res[idx])# stores character images according to their index
     img_res = np.array(img_res_copy)
 
+    
+
     return img_res
 
 # Find characters in the resulting images
 def segment_characters(image) :
 
     # Preprocess cropped license plate image
-    img_lp = cv2.resize(image, (300, 75))
+    img_lp = cv2.resize(image, (300, 100))
+
+    # convert to grayscale
     img_gray_lp = cv2.cvtColor(img_lp, cv2.COLOR_BGR2GRAY)
+
     _, img_binary_lp = cv2.threshold(img_gray_lp, 200, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
     img_binary_lp = cv2.erode(img_binary_lp, (3,3))
     img_binary_lp = cv2.dilate(img_binary_lp, (3,3))
@@ -157,8 +162,7 @@ def segment_characters(image) :
     return char_list
 
 # img = cv2.imread('/Users/conniji/aiot/Software-Design-for-AI/ESP/bleCollector/image/Ohio_License_Plate.jpg')
-img = cv2.imread('Ohio_License_Plate.jpg')
-char = segment_characters(img)
+
 
 # for i in range(len(char)):
 #     plt.subplot(1, len(char), i+1)
@@ -222,7 +226,7 @@ def fix_dimension(img):
     new_img[:,:,i] = img
   return new_img
   
-def show_results():
+def show_results(char):
     dic = {}
     characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     for i,c in enumerate(characters):
@@ -254,6 +258,40 @@ def show_results():
 
     return plate_number
 
+# def capture_photo(output_path):
+#     camera = cv2.VideoCapture(0)
+
+#     if not camera.isOpened():
+#         print("Error: Could not open camera.")
+#         return
+
+#     cv2.namedWindow("Camera", cv2.WINDOW_NORMAL)
+
+#     while True:
+#         # Capture a frame from the camera
+#         ret, frame = camera.read()
+
+#         if not ret:
+#             print("Error: Could not capture a photo.")
+#             break
+
+#         # Display the live camera feed
+#         cv2.imshow("Camera", frame)
+
+#         # Wait for a key press
+#         key = cv2.waitKey(1) & 0xFF
+
+#         if key == ord('q') or key == 27:  # 'q' or 'Esc' key to quit
+#             break
+#         elif key == ord('c'):  # 'c' key to capture the photo
+#             cv2.imwrite(output_path, frame)
+#             print(f"Photo has been saved as {output_path}.")
+#             break
+
+#     # Release the camera and close the window
+#     camera.release()
+#     cv2.destroyAllWindows()
+
 
 #######################################################################################
 
@@ -266,11 +304,15 @@ class bleCollector:
 
    def on_message(self, client, userdata, message):
     # Get the license plate number
-    # license_number = '2TH4726'     
-      license_number = show_results()
+    #   license_number = '2TH4726'
+    ## Example usage:
+      img = cv2.imread('captured_photo.png')
+      char = segment_characters(img)
+      license_number = show_results(char)
       print("Message Recieved: " + json.loads(message.payload.decode())['addr'])
       print("License Plate Number:", license_number)
       update_status(license_number, json.loads(message.payload.decode())['addr'])
+      
    
    async def co_run(self, broker_url, broker_port, sub_topic):
       self.mqttClient.connect(broker_url, broker_port)
@@ -281,11 +323,21 @@ class bleCollector:
 
    def run(self, broker_url, broker_port, sub_topic):
       asyncio.run(self.co_run(broker_url, broker_port, sub_topic))
+    #   loop = asyncio.get_event_loop()
+    #   loop.run_until_complete(self.co_run(broker_url, broker_port, sub_topic))  
 
 if __name__ == '__main__':
+   
    broker_url = "broker.hivemq.com"
+#    broker_url = "192.168.1.168"
    broker_port = 1883
    sub_topic = "ict720/suradit/data"
    #sub_topic = "ict720/suradit/data"
+
+#    output_path = "captured_photo.png"
+#    capture_photo(output_path)     
+#    img = cv2.imread('captured_photo.png')
+#    char = segment_characters(img)
    app = bleCollector()
    app.run(broker_url, broker_port, sub_topic)
+
