@@ -3,6 +3,7 @@
 #include "ble_task.h"
 #include "mqtt_task.h"
 
+
 // static variables
 
 // static functions
@@ -11,6 +12,7 @@
 #define TAG             "MAIN"
 #define BLE_TASK_PRIO   2
 #define MQTT_TASK_PRIO  3
+
 
 void setup() {
   ESP_LOGI(TAG, "Starting BLE detector");

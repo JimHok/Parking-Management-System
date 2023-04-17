@@ -6,4 +6,19 @@ services:
       - "80:8000"
     env_file:
       - .env
-   
+#     depends_on:
+#       - mqtt
+
+#   mqtt:
+#     image: eclipse-mosquitto
+#     command: /usr/sbin/mosquitto -c /etc/mosquitto/mosquitto.conf  # Add this line
+#     ports:
+#       - "1883:1883"
+#       - "9001:9001"
+#     volumes:
+#       - ./mosquitto_config:/mosquitto/config
+#       - mosquitto_data:/mosquitto/data
+
+# volumes:
+#   mosquitto_config:
+#   mosquitto_data:
